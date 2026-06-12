@@ -1,0 +1,328 @@
+{
+  "corpus_metadata": {
+    "name": "Passenger Disability Assistance Service Eligibility Corpus",
+    "version": "1.0",
+    "description": "Maps passenger disability profiles (IATA SSR codes) to allowed services, equipment handling rules, escort requirements, and regulatory basis. Used as the structured knowledge layer of the Wheelchair Assistance Operations Copilot RAG system.",
+    "regulatory_basis": ["14 CFR Part 382 (US DOT ACAA)", "IATA Resolution 700", "EC Regulation 1107/2006 (EU reference)"],
+    "record_count": 12,
+    "last_updated": "2026-06-11"
+  },
+  "service_catalog": {
+    "WHEELCHAIR_TO_GATE": "Wheelchair push from check-in/curb to departure gate and from arrival gate to curb",
+    "WHEELCHAIR_TO_AIRCRAFT_DOOR": "Wheelchair assistance up/down stairs or jet bridge to the aircraft door",
+    "WHEELCHAIR_TO_SEAT": "Full assistance to the assigned seat using an aisle chair",
+    "AISLE_CHAIR_TRANSFER": "Onboard aisle chair for boarding, deplaning, and lavatory access",
+    "PRIORITY_BOARDING": "Pre-boarding before general boarding groups",
+    "PRIORITY_DEPLANING": "Assisted deplaning, typically last off unless connection is tight",
+    "MOBILITY_DEVICE_GATE_CHECK": "Personal wheelchair/scooter checked at gate and returned at aircraft door on arrival",
+    "BATTERY_HANDLING": "Dangerous-goods compliant handling of wet/dry/lithium wheelchair batteries",
+    "MEET_AND_ASSIST": "Staff escort through the terminal without a wheelchair",
+    "CONNECTION_ESCORT": "Escorted transfer between gates/terminals for connections",
+    "SECURITY_ESCORT": "Assistance through TSA/security screening",
+    "BAGGAGE_ASSISTANCE": "Help retrieving and carrying baggage",
+    "SIGN_LANGUAGE_OR_WRITTEN_COMM": "Communication of flight info in accessible format (written, visual displays)",
+    "VISUAL_GUIDANCE_ESCORT": "Sighted-guide escort for blind/low-vision passengers",
+    "SAFETY_BRIEFING_INDIVIDUAL": "Individual safety briefing from cabin crew",
+    "SERVICE_ANIMAL_RELIEF_AREA": "Escort to service animal relief area",
+    "ONBOARD_WHEELCHAIR_STOWAGE": "Priority in-cabin stowage of one folding manual wheelchair",
+    "MEDICAL_OXYGEN_COORDINATION": "Coordination of approved portable oxygen concentrator (POC) use",
+    "STRETCHER_ARRANGEMENT": "Stretcher installation across seat rows with medical escort",
+    "EXTENDED_CHECKIN_SUPPORT": "Dedicated agent support and extra time at check-in"
+  },
+  "passenger_profiles": [
+    {
+      "profile_id": "DP-001",
+      "ssr_code": "WCHR",
+      "disability_category": "Mobility - can walk short distances and climb stairs",
+      "description": "Passenger can ascend/descend stairs and walk to their seat, but cannot walk long distances through the terminal.",
+      "allowed_services": [
+        "WHEELCHAIR_TO_GATE",
+        "PRIORITY_BOARDING",
+        "CONNECTION_ESCORT",
+        "SECURITY_ESCORT",
+        "BAGGAGE_ASSISTANCE"
+      ],
+      "excluded_services": ["AISLE_CHAIR_TRANSFER", "WHEELCHAIR_TO_SEAT"],
+      "escort_required": false,
+      "advance_notice_hours": 0,
+      "sla_pickup_minutes": 20,
+      "seating_restrictions": ["Not permitted in exit rows per 14 CFR 121.585"],
+      "regulatory_citations": ["14 CFR 382.91", "14 CFR 382.95"],
+      "notes": "Most common assistance request (~60% of volume). No advance notice required; airline must provide on request at airport."
+    },
+    {
+      "profile_id": "DP-002",
+      "ssr_code": "WCHS",
+      "disability_category": "Mobility - cannot climb stairs, can walk to seat",
+      "description": "Passenger cannot ascend or descend stairs but can walk short distances on a level surface to their seat.",
+      "allowed_services": [
+        "WHEELCHAIR_TO_GATE",
+        "WHEELCHAIR_TO_AIRCRAFT_DOOR",
+        "PRIORITY_BOARDING",
+        "PRIORITY_DEPLANING",
+        "CONNECTION_ESCORT",
+        "SECURITY_ESCORT",
+        "BAGGAGE_ASSISTANCE"
+      ],
+      "excluded_services": ["AISLE_CHAIR_TRANSFER"],
+      "escort_required": false,
+      "advance_notice_hours": 0,
+      "sla_pickup_minutes": 20,
+      "seating_restrictions": ["Not permitted in exit rows"],
+      "equipment_notes": "Lift or ramp required for remote stands without jet bridge.",
+      "regulatory_citations": ["14 CFR 382.91", "14 CFR 382.39"],
+      "notes": "Requires boarding lift coordination at hardstand gates."
+    },
+    {
+      "profile_id": "DP-003",
+      "ssr_code": "WCHC",
+      "disability_category": "Mobility - completely immobile",
+      "description": "Passenger is completely immobile and requires assistance from check-in to the aircraft seat, including an aisle chair.",
+      "allowed_services": [
+        "WHEELCHAIR_TO_GATE",
+        "WHEELCHAIR_TO_AIRCRAFT_DOOR",
+        "WHEELCHAIR_TO_SEAT",
+        "AISLE_CHAIR_TRANSFER",
+        "PRIORITY_BOARDING",
+        "PRIORITY_DEPLANING",
+        "MOBILITY_DEVICE_GATE_CHECK",
+        "BATTERY_HANDLING",
+        "ONBOARD_WHEELCHAIR_STOWAGE",
+        "CONNECTION_ESCORT",
+        "SECURITY_ESCORT",
+        "BAGGAGE_ASSISTANCE",
+        "SAFETY_BRIEFING_INDIVIDUAL"
+      ],
+      "excluded_services": [],
+      "escort_required": false,
+      "escort_conditions": "Safety assistant may be required under 14 CFR 382.29 only if passenger cannot assist in their own evacuation.",
+      "advance_notice_hours": 0,
+      "sla_pickup_minutes": 15,
+      "seating_restrictions": ["Not permitted in exit rows", "Movable aisle armrest seat required where available per 14 CFR 382.81"],
+      "equipment_notes": "Two-agent lift transfer; aisle chair mandatory on aircraft with more than 60 seats per 14 CFR 382.65.",
+      "regulatory_citations": ["14 CFR 382.29", "14 CFR 382.65", "14 CFR 382.81", "14 CFR 382.91", "14 CFR 382.95"],
+      "notes": "Highest-touch service level. Tight-connection rebooking priority applies."
+    },
+    {
+      "profile_id": "DP-004",
+      "ssr_code": "WCBD",
+      "disability_category": "Mobility - travels with dry/non-spillable battery wheelchair",
+      "description": "Passenger travels with a personal battery-powered wheelchair using a dry or non-spillable battery.",
+      "allowed_services": [
+        "MOBILITY_DEVICE_GATE_CHECK",
+        "BATTERY_HANDLING",
+        "WHEELCHAIR_TO_SEAT",
+        "AISLE_CHAIR_TRANSFER",
+        "PRIORITY_BOARDING",
+        "PRIORITY_DEPLANING"
+      ],
+      "excluded_services": [],
+      "escort_required": false,
+      "advance_notice_hours": 48,
+      "advance_notice_reason": "Battery handling and cargo door size verification",
+      "sla_pickup_minutes": 15,
+      "battery_rules": {
+        "battery_type": "dry_or_non_spillable",
+        "disconnect_required": "Only if device cannot be protected from accidental activation",
+        "dangerous_goods_class": "Not restricted when terminals protected"
+      },
+      "regulatory_citations": ["14 CFR 382.125", "14 CFR 382.127", "IATA DGR Packing Instruction"],
+      "notes": "Device returned at aircraft door on arrival unless passenger requests baggage claim delivery."
+    },
+    {
+      "profile_id": "DP-005",
+      "ssr_code": "WCLB",
+      "disability_category": "Mobility - travels with lithium battery wheelchair",
+      "description": "Passenger travels with a lithium-ion battery powered mobility device.",
+      "allowed_services": [
+        "MOBILITY_DEVICE_GATE_CHECK",
+        "BATTERY_HANDLING",
+        "WHEELCHAIR_TO_SEAT",
+        "AISLE_CHAIR_TRANSFER",
+        "PRIORITY_BOARDING",
+        "PRIORITY_DEPLANING"
+      ],
+      "excluded_services": [],
+      "escort_required": false,
+      "advance_notice_hours": 48,
+      "battery_rules": {
+        "battery_type": "lithium_ion",
+        "max_watt_hours_installed": 300,
+        "removable_battery_rule": "Removable batteries up to 300 Wh (or 2 x 160 Wh) must be carried in cabin",
+        "dangerous_goods_class": "UN3481 provisions apply"
+      },
+      "regulatory_citations": ["14 CFR 382.125", "IATA DGR 2.3.2.4"],
+      "notes": "Dispatcher must confirm Wh rating at check-in; flag for DG acceptance check."
+    },
+    {
+      "profile_id": "DP-006",
+      "ssr_code": "BLND",
+      "disability_category": "Sensory - blind or low vision",
+      "description": "Passenger is blind or has low vision and requires guidance through the airport.",
+      "allowed_services": [
+        "VISUAL_GUIDANCE_ESCORT",
+        "MEET_AND_ASSIST",
+        "PRIORITY_BOARDING",
+        "CONNECTION_ESCORT",
+        "SECURITY_ESCORT",
+        "BAGGAGE_ASSISTANCE",
+        "SAFETY_BRIEFING_INDIVIDUAL",
+        "SERVICE_ANIMAL_RELIEF_AREA"
+      ],
+      "excluded_services": ["WHEELCHAIR_TO_GATE"],
+      "excluded_services_note": "Wheelchair not provided by default; passenger may decline being placed in one — guidance escort is the correct service.",
+      "escort_required": false,
+      "advance_notice_hours": 0,
+      "service_animal_allowed": true,
+      "seating_restrictions": ["Not permitted in exit rows", "Bulkhead seat offered if traveling with guide dog"],
+      "regulatory_citations": ["14 CFR 382.91", "14 CFR 382.117", "14 CFR 382.81"],
+      "notes": "Common operational error: assigning WCHR instead of MAAS/guidance. Corpus should let RAG flag this."
+    },
+    {
+      "profile_id": "DP-007",
+      "ssr_code": "DEAF",
+      "disability_category": "Sensory - deaf or hard of hearing",
+      "description": "Passenger is deaf or hard of hearing and requires flight information in visual or written form.",
+      "allowed_services": [
+        "SIGN_LANGUAGE_OR_WRITTEN_COMM",
+        "MEET_AND_ASSIST",
+        "PRIORITY_BOARDING",
+        "SAFETY_BRIEFING_INDIVIDUAL",
+        "SERVICE_ANIMAL_RELIEF_AREA"
+      ],
+      "excluded_services": ["WHEELCHAIR_TO_GATE", "AISLE_CHAIR_TRANSFER"],
+      "escort_required": false,
+      "advance_notice_hours": 0,
+      "service_animal_allowed": true,
+      "seating_restrictions": ["Not permitted in exit rows if unable to hear crew commands"],
+      "regulatory_citations": ["14 CFR 382.91", "14 CFR 382.119"],
+      "notes": "Gate agents must communicate gate changes, delays, and boarding calls directly, not rely on PA announcements."
+    },
+    {
+      "profile_id": "DP-008",
+      "ssr_code": "DPNA",
+      "disability_category": "Cognitive or developmental disability",
+      "description": "Passenger with an intellectual or developmental disability needing assistance navigating the airport and flight process.",
+      "allowed_services": [
+        "MEET_AND_ASSIST",
+        "CONNECTION_ESCORT",
+        "SECURITY_ESCORT",
+        "PRIORITY_BOARDING",
+        "EXTENDED_CHECKIN_SUPPORT",
+        "SAFETY_BRIEFING_INDIVIDUAL"
+      ],
+      "excluded_services": ["WHEELCHAIR_TO_GATE"],
+      "escort_required": false,
+      "escort_conditions": "Safety assistant required only if passenger cannot comprehend or respond to safety instructions per 14 CFR 382.29(b)(2).",
+      "advance_notice_hours": 0,
+      "regulatory_citations": ["14 CFR 382.29", "14 CFR 382.91"],
+      "notes": "Handoff between agents must be person-to-person; passenger must never be left unattended at transfer points."
+    },
+    {
+      "profile_id": "DP-009",
+      "ssr_code": "MAAS",
+      "disability_category": "General - meet and assist (elderly, anxiety, temporary injury)",
+      "description": "Passenger needs general escort assistance but no wheelchair, e.g., elderly traveler, first-time flyer with anxiety, or minor temporary injury.",
+      "allowed_services": [
+        "MEET_AND_ASSIST",
+        "CONNECTION_ESCORT",
+        "SECURITY_ESCORT",
+        "BAGGAGE_ASSISTANCE",
+        "PRIORITY_BOARDING"
+      ],
+      "excluded_services": ["WHEELCHAIR_TO_GATE", "AISLE_CHAIR_TRANSFER", "MOBILITY_DEVICE_GATE_CHECK"],
+      "escort_required": false,
+      "advance_notice_hours": 0,
+      "sla_pickup_minutes": 25,
+      "regulatory_citations": ["14 CFR 382.91"],
+      "notes": "Lowest priority tier for dispatch queueing; can be batched with other escorts."
+    },
+    {
+      "profile_id": "DP-010",
+      "ssr_code": "OXYG",
+      "disability_category": "Medical - requires supplemental oxygen",
+      "description": "Passenger requires medical oxygen in flight via an FAA-approved portable oxygen concentrator (POC).",
+      "allowed_services": [
+        "MEDICAL_OXYGEN_COORDINATION",
+        "WHEELCHAIR_TO_GATE",
+        "PRIORITY_BOARDING",
+        "EXTENDED_CHECKIN_SUPPORT"
+      ],
+      "excluded_services": [],
+      "escort_required": false,
+      "advance_notice_hours": 48,
+      "advance_notice_reason": "Medical clearance and POC battery duration verification (150% of flight duration required)",
+      "documentation_required": ["Physician statement may be required", "POC must be FAA-approved model"],
+      "seating_restrictions": ["Not permitted in exit rows", "Seat must not block aisle access of others"],
+      "regulatory_citations": ["14 CFR 382.133", "14 CFR 382.27(c)(5)"],
+      "notes": "Battery duration check is the most-missed step; corpus should surface the 150% rule prominently."
+    },
+    {
+      "profile_id": "DP-011",
+      "ssr_code": "STCR",
+      "disability_category": "Medical - stretcher passenger",
+      "description": "Passenger cannot sit upright and must travel on a stretcher installed across seat rows.",
+      "allowed_services": [
+        "STRETCHER_ARRANGEMENT",
+        "WHEELCHAIR_TO_AIRCRAFT_DOOR",
+        "PRIORITY_BOARDING",
+        "PRIORITY_DEPLANING",
+        "MEDICAL_OXYGEN_COORDINATION",
+        "EXTENDED_CHECKIN_SUPPORT"
+      ],
+      "excluded_services": ["AISLE_CHAIR_TRANSFER"],
+      "escort_required": true,
+      "escort_conditions": "Medical escort (physician or nurse) mandatory; travels at passenger expense.",
+      "advance_notice_hours": 48,
+      "documentation_required": ["Medical Information Form (MEDIF)", "Fit-to-fly certificate"],
+      "regulatory_citations": ["14 CFR 382.27(c)", "Carrier MEDIF policy"],
+      "notes": "Not all aircraft types support stretcher installation; dispatcher must check equipment type. Ambulance coordination at both airports."
+    },
+    {
+      "profile_id": "DP-012",
+      "ssr_code": "ESAN_SVAN",
+      "disability_category": "Service animal - trained dog accompanying passenger with disability",
+      "description": "Passenger travels with a trained service dog (psychiatric service dogs included; emotional support animals no longer recognized under US DOT rules since 2021).",
+      "allowed_services": [
+        "SERVICE_ANIMAL_RELIEF_AREA",
+        "PRIORITY_BOARDING",
+        "MEET_AND_ASSIST",
+        "EXTENDED_CHECKIN_SUPPORT"
+      ],
+      "excluded_services": [],
+      "escort_required": false,
+      "advance_notice_hours": 48,
+      "documentation_required": ["DOT Service Animal Air Transportation Form", "DOT Relief Attestation Form for flights over 8 hours"],
+      "seating_restrictions": ["Not permitted in exit rows", "Animal must fit within passenger foot space", "Bulkhead offered where available"],
+      "regulatory_citations": ["14 CFR 382.72", "14 CFR 382.74", "14 CFR 382.75", "14 CFR 382.81"],
+      "notes": "Combine with the passenger's underlying disability profile (e.g., BLND + SVAN) — RAG retrieval should merge both records."
+    }
+  ],
+  "business_rules": [
+    {
+      "rule_id": "BR-001",
+      "rule": "No advance notice may be required for WCHR, WCHS, WCHC, BLND, DEAF, DPNA, or MAAS services; airlines may only require up to 48 hours notice for the specific services enumerated in 14 CFR 382.27(c).",
+      "citation": "14 CFR 382.25, 382.27"
+    },
+    {
+      "rule_id": "BR-002",
+      "rule": "A passenger may never be charged for any assistance service required under Part 382.",
+      "citation": "14 CFR 382.31"
+    },
+    {
+      "rule_id": "BR-003",
+      "rule": "Damaged or lost wheelchairs must be reported as mishandled mobility devices to DOT; airline liability is the original purchase price of the device for domestic travel.",
+      "citation": "14 CFR 382.131, DOT Air Travel Consumer Report requirements"
+    },
+    {
+      "rule_id": "BR-004",
+      "rule": "If a connection is under the minimum connect time and the passenger has any wheelchair SSR, dispatch must assign a dedicated (non-batched) escort and notify the receiving gate.",
+      "citation": "Internal SOP (synthetic)"
+    },
+    {
+      "rule_id": "BR-005",
+      "rule": "Passengers must not be left unattended in a wheelchair for more than 30 minutes when not independently mobile.",
+      "citation": "14 CFR 382.103"
+    }
+  ]
+}
